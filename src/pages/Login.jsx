@@ -4,6 +4,7 @@ import { Container, Card, CardContent, Typography, TextField, Button, Alert, Sta
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Navbar from '../components/Navbar'
 import { useAuth } from '../context/AuthContext'
+import { inicioRol } from '../data/mock'
 
 export default function Login() {
   const { login, DEMO } = useAuth()
@@ -16,10 +17,10 @@ export default function Login() {
   async function enviar(e) {
     e.preventDefault()
     setEnviando(true)
-    const { error } = await login(email, password)
+    const { error, rol } = await login(email, password)
     setEnviando(false)
     if (error) setError('Correo o contraseña incorrectos')
-    else nav('/recepcion')
+    else nav(inicioRol[rol] ?? '/')
   }
 
   return (
@@ -38,8 +39,9 @@ export default function Login() {
               {DEMO && (
                 <>
                   <Divider>Modo demo</Divider>
-                  <Button variant="outlined" onClick={() => { setEmail('dueno@demo.cl'); setPassword('demo1234') }}>Usar cuenta Dueño</Button>
+                  <Button variant="outlined" onClick={() => { setEmail('dueno@demo.cl'); setPassword('demo1234') }}>Usar cuenta Administrador</Button>
                   <Button variant="outlined" onClick={() => { setEmail('recepcion@demo.cl'); setPassword('demo1234') }}>Usar cuenta Recepción</Button>
+                  <Button variant="outlined" onClick={() => { setEmail('cliente@demo.cl'); setPassword('demo1234') }}>Usar cuenta Cliente</Button>
                 </>
               )}
             </Stack>

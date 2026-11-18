@@ -47,9 +47,15 @@ export const seedReservas = [
   mk(5, 4, h, 20, 'Fernanda Díaz', '933322110', 0),
   mk(6, 1, sumaDias(h, 1), 19, 'Diego Pérez', '922211009', 0),
   mk(7, 2, sumaDias(h, 1), 22, 'Los Cracks FC', '911100998', 0.5),
+  mk(8, 3, sumaDias(h, 2), 20, 'Juan Pérez', '987001122', 0.5),
 ]
 
+// Cuentas de prueba: una por cada rol del sistema
 export const usuariosDemo = [
   { email: 'dueno@demo.cl', clave: 'demo1234', rol: 'dueno', nombre: 'Administrador' },
   { email: 'recepcion@demo.cl', clave: 'demo1234', rol: 'recepcionista', nombre: 'Recepción' },
+  { email: 'cliente@demo.cl', clave: 'demo1234', rol: 'cliente', nombre: 'Juan Pérez', telefono: '987001122' },
 ]
+
+export const nombreRol = { dueno: 'Administrador', recepcionista: 'Recepción', cliente: 'Cliente' }
+export const inicioRol = { dueno: '/admin', recepcionista: '/recepcion', cliente: '/mis-reservas' }

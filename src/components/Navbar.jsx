@@ -2,6 +2,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Button, Box, Chip } from '@mui/material'
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
 import { useAuth } from '../context/AuthContext'
+import { nombreRol } from '../data/mock'
 
 export default function Navbar() {
   const { user, rol, logout } = useAuth()
@@ -11,6 +12,9 @@ export default function Navbar() {
         <SportsSoccerIcon />
         <Typography variant="h6" sx={{ fontWeight: 700, mr: 2 }}>Canchas</Typography>
         <Button color="inherit" component={RouterLink} to="/">Reservar</Button>
+        {rol === 'cliente' && (
+          <Button color="inherit" component={RouterLink} to="/mis-reservas">Mis reservas</Button>
+        )}
         {(rol === 'recepcionista' || rol === 'dueno') && (
           <Button color="inherit" component={RouterLink} to="/recepcion">Recepción</Button>
         )}
@@ -18,7 +22,7 @@ export default function Navbar() {
           <Button color="inherit" component={RouterLink} to="/admin">Administración</Button>
         )}
         <Box sx={{ flexGrow: 1 }} />
-        {rol && <Chip label={rol} size="small" sx={{ bgcolor: 'rgba(255,255,255,.2)', color: '#fff' }} />}
+        {rol && <Chip label={nombreRol[rol] ?? rol}size="small" sx={{ bgcolor: 'rgba(255,255,255,.2)', color: '#fff' }} />}
         {user
           ? <Button color="inherit" variant="outlined" onClick={logout}>Salir</Button>
           : <Button color="inherit" variant="outlined" component={RouterLink} to="/login">Ingresar</Button>}

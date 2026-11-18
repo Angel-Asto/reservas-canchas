@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Container, Typography, Tabs, Tab, Paper, Grid, Card, CardContent, Box, Stack, LinearProgress, Table, TableHead, TableRow, TableCell, TableBody, Switch, Chip, TextField, Alert } from '@mui/material'
 import Navbar from '../components/Navbar'
 import { useReservas } from '../context/ReservasContext'
-import { clp, hoy, usuariosDemo, HORAS } from '../data/mock'
+import { clp, hoy, usuariosDemo, HORAS, nombreRol } from '../data/mock'
 
 const Kpi = ({ titulo, valor, color }) => (
   <Card><CardContent>
@@ -85,7 +85,7 @@ export default function Admin() {
                   {usuariosDemo.map(u => (
                     <TableRow key={u.email}>
                       <TableCell>{u.nombre}</TableCell><TableCell>{u.email}</TableCell>
-                      <TableCell><Chip size="small" label={u.rol === 'dueno' ? 'Dueño' : 'Recepcionista'} color={u.rol === 'dueno' ? 'primary' : 'default'} /></TableCell>
+                      <TableCell><Chip size="small" label={nombreRol[u.rol]} color={{ dueno: 'primary', recepcionista: 'secondary', cliente: 'default' }[u.rol]} /></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

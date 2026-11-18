@@ -6,6 +6,7 @@ import Reservar from './pages/Reservar'
 import Login from './pages/Login'
 import Recepcion from './pages/Recepcion'
 import Admin from './pages/Admin'
+import MisReservas from './pages/MisReservas'
 
 export default function App() {
   return (
@@ -15,6 +16,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Reservar />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/mis-reservas" element={
+            <RutaProtegida roles={['cliente']}><MisReservas /></RutaProtegida>
+          } />
           <Route path="/recepcion" element={
             <RutaProtegida roles={['recepcionista', 'dueno']}><Recepcion /></RutaProtegida>
           } />

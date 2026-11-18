@@ -4,13 +4,22 @@ import CloseIcon from '@mui/icons-material/Close'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { useReservas } from '../context/ReservasContext'
+import { useAuth } from '../context/AuthContext'
 import { clp, fechaLarga } from '../data/mock'
 
 export default function CarritoDrawer({ abierto, cerrar }) {
   const { carrito, canchas, precio, alternarCarrito, confirmar } = useReservas()
+  const { rol, perfil } = useAuth()
+  const esCliente = rol === 'cliente'
   const [dlg, setDlg] = useState(false)
   const [nombre, setNombre] = useState('')
   const [telefono, setTelefono] = useState('')
+
+  function abrirDatos() {
+    // Si el cliente inició sesión, sus datos se completan automáticamente
+    if (esCliente) { setNombre(perfil?.nombre ?? ''); setTelefono(perfil?.telefono ?? '') }
+    setDlg(true)
+  }
   const [exito, setExito] = useState(null)
 
   const items = carrito.map(it => {
@@ -65,7 +74,7 @@ export default function CarritoDrawer({ abierto, cerrar }) {
             <Typography variant="h6">Total</Typography>
             <Typography variant="h6" color="primary" sx={{ fontWeight: 700 }}>{clp(total)}</Typography>
           </Stack>
-          <Button variant="contained" size="large" disabled={items.length === 0} onClick={() => setDlg(true)}>Continuar</Button>
+          <Button variant="contained" size="large" disabled={items.length === 0} onClick={abrirDatos}>Continuar</Button>
         </Box>
       </Drawer>
 
@@ -73,8 +82,9 @@ export default function CarritoDrawer({ abierto, cerrar }) {
         <DialogTitle>Datos para la reserva</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Nombre completo" value={nombre} onChange={e => setNombre(e.target.value)} autoFocus />
-            <TextField label="Teléfono / WhatsApp" value={telefono} onChange={e => setTelefono(e.target.value)} error={telefono !== '' && !telOk} helperText="Te avisaremos por este número" />
+            {esCliente && <Alert severity="success">Reservando con tu cuenta de cliente; verás esta reserva en «Mis reservas».</Alert>}
+            <TextField label="Nombre completo" value={nombre} onChange={e => setNombre(e.target.value)} autoFocus={!esCliente} />
+            <TextField label="Teléfono / WhatsApp" value={telefono} disabled={esCliente} onChange={e => setTelefono(e.target.value)} error={telefono !== '' && !telOk} helperText="Te avisaremos por este número" />
             <Alert severity="info">El pago se realiza en recepción. Total a pagar: {clp(total)}</Alert>
           </Stack>
         </DialogContent>
