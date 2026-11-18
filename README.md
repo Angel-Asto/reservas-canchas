@@ -1,5 +1,7 @@
 # Reservas Canchas (React + Vite + Supabase)
 
+**Demo publicada:** https://reservas-canchas-delta.vercel.app
+
 ## Ejecutar
 1. `npm install`
 2. Copia `.env.example` a `.env.local` y pon tus claves de Supabase (Project Settings → API)
